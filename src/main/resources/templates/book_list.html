@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+</head>
+<body>
+<h1>图书列表</h1>
+
+<a th:href="@{/books/add}">添加新图书</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>书名</th>
+        <th>作者</th>
+        <th>分类</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.name}">书名</td>
+        <td th:text="${book.author}">作者</td>
+        <td th:text="${book.category}">分类</td>
+        <td th:text="${book.status}">状态</td>
+        <td>
+            <a th:href="@{'/books/edit/' + ${book.id}}">修改</a>
+            <a th:href="@{'/books/delete/' + ${book.id}}">删除</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
