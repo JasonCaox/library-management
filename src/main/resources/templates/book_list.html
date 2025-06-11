@@ -25,8 +25,8 @@
         <td th:text="${book.category}">分类</td>
         <td th:text="${book.status}">状态</td>
         <td>
-            <a th:href="@{'/books/edit/' + ${book.id}}">修改</a>
-            <a th:href="@{'/books/delete/' + ${book.id}}">删除</a>
+            <a th:href="@{'/books/edit?id=' + ${book.id}}">编辑</a>
+            <a th:href="@{'/books/delete?id=' + ${book.id}}" onclick="return confirm('确定要删除这本图书吗？');">删除</a>
         </td>
     </tr>
 </table>
