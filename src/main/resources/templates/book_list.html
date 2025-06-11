@@ -7,7 +7,13 @@
 <body>
 <h1>图书列表</h1>
 
-<a th:href="@{/books/add}">添加新图书</a>
+<div th:if="${session.user != null}">
+    <span th:text="'当前用户：' + ${session.user.username} + '（' + ${session.user.role} + '）'"></span>
+    <a th:href="@{/logout}">退出登录</a>
+</div>
+
+<!-- 仅管理员可见添加按钮 -->
+<a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{/books/add}">添加新图书</a>
 
 <table border="1">
     <tr>
@@ -25,8 +31,9 @@
         <td th:text="${book.category}">分类</td>
         <td th:text="${book.status}">状态</td>
         <td>
-            <a th:href="@{'/books/edit?id=' + ${book.id}}">编辑</a>
-            <a th:href="@{'/books/delete?id=' + ${book.id}}" onclick="return confirm('确定要删除这本图书吗？');">删除</a>
+            <!-- 仅管理员可见编辑和删除按钮 -->
+            <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/edit?id=' + ${book.id}}">编辑</a>
+            <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/delete?id=' + ${book.id}}" onclick="return confirm('确定要删除这本图书吗？');">删除</a>
         </td>
     </tr>
 </table>
