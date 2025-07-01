@@ -31,6 +31,7 @@ public class UserController {
         User user = userService.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            session.setAttribute("userId", user.getId());
             return "redirect:/books/list";
         } else {
             model.addAttribute("error", "用户名或密码错误");

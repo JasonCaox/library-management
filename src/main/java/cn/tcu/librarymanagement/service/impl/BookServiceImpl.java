@@ -5,6 +5,8 @@ import cn.tcu.librarymanagement.mapper.BookMapper;
 import cn.tcu.librarymanagement.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import cn.tcu.librarymanagement.mapper.BorrowRecordMapper;
+import cn.tcu.librarymanagement.entity.BorrowRecord;
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private BorrowRecordMapper borrowRecordMapper;
+
     @Override
     public void addBook(Book book) {
         bookMapper.add(book);
@@ -21,21 +26,35 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAllBooks() {
-        return bookMapper.findAll();
+        List<Book> books = bookMapper.findAll();
+        for (Book book : books) {
+            if ("已借".equals(book.getStatus())) {
+                List<BorrowRecord> records = borrowRecordMapper.findByBookId(book.getId());
+                for (BorrowRecord record : records) {
+                    if ("借阅中".equals(record.getStatus())) {
+                        book.setBorrowUserId(record.getUserId());
+                        break;
+                    }
+                }
+            } else {
+                book.setBorrowUserId(null);
+            }
+        }
+        return books;
     }
 
     @Override
     public void updateBook(Book book) {
-        bookMapper.update(book);
+        bookMapper.updateBook(book);
     }
 
     @Override
-    public Book getBookById(Integer id) {
+    public Book getBookById(Long id) {
         return bookMapper.findById(id);
     }
 
     @Override
-    public void deleteBook(Integer id) {
+    public void deleteBook(Long id) {
         bookMapper.delete(id);
     }
 }

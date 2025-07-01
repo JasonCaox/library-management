@@ -39,7 +39,7 @@ public class BookPageController {
 
     // 跳转到编辑图书页面
     @GetMapping("/edit")
-    public String showEditBookForm(Integer id, Model model) {
+    public String showEditBookForm(Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
         return "edit_book";
@@ -54,7 +54,7 @@ public class BookPageController {
 
     // 删除图书
     @GetMapping("/delete")
-    public String deleteBook(@RequestParam("id") Integer id) {
+    public String deleteBook(@RequestParam("id") Long id) {
         bookService.deleteBook(id);
         return "redirect:/books/list";
     }

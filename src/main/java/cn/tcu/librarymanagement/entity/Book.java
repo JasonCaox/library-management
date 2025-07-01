@@ -1,13 +1,14 @@
 package cn.tcu.librarymanagement.entity;
 
 public class Book {
-    private Integer id;
+    private Long id;
     private String name;
     private String author;
     private String category;
     private String status;
+    private Long borrowUserId; // 当前借阅人id，仅在已借状态下有效
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -19,7 +20,7 @@ public class Book {
         this.status = status;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,5 +46,13 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getBorrowUserId() {
+        return borrowUserId;
+    }
+
+    public void setBorrowUserId(Long borrowUserId) {
+        this.borrowUserId = borrowUserId;
     }
 }

@@ -20,7 +20,7 @@ public class BookMapper {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
     }
 
-    public Book findById(Integer id) {
+    public Book findById(Long id) {
         String sql = "SELECT * FROM book WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Book.class), id);
     }
@@ -30,12 +30,12 @@ public class BookMapper {
         return jdbcTemplate.update(sql, book.getName(), book.getAuthor(), book.getCategory(), book.getStatus());
     }
 
-    public int update(Book book) {
+    public int updateBook(Book book) {
         String sql = "UPDATE book SET name=?, author=?, category=?, status=? WHERE id=?";
         return jdbcTemplate.update(sql, book.getName(), book.getAuthor(), book.getCategory(), book.getStatus(), book.getId());
     }
 
-    public int delete(Integer id) {
+    public int delete(Long id) {
         String sql = "DELETE FROM book WHERE id=?";
         return jdbcTemplate.update(sql, id);
     }

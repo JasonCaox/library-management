@@ -7,6 +7,6 @@ public interface BookService {
     void addBook(Book book);
     List<Book> getAllBooks();
     void updateBook(Book book);
-    Book getBookById(Integer id);
-    void deleteBook(Integer id);
+    Book getBookById(Long id);
+    void deleteBook(Long id);
 }
