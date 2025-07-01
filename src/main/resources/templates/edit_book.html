@@ -1,34 +1,65 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>编辑图书</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <!-- 引入 Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .edit-book-container {
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 32px 28px 24px 28px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        .edit-book-title {
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .back-link {
+            display: block;
+            text-align: right;
+            margin-top: 12px;
+        }
+    </style>
 </head>
 <body>
-<h2>编辑图书</h2>
-<form action="/books/edit" method="post">
-    <input type="hidden" name="id" th:value="${book.id}" />
-    <div>
-        <label>书名：</label>
-        <input type="text" name="name" th:value="${book.name}" required />
-    </div>
-    <div>
-        <label>作者：</label>
-        <input type="text" name="author" th:value="${book.author}" required />
-    </div>
-    <div>
-        <label>分类：</label>
-        <input type="text" name="category" th:value="${book.category}" required />
-    </div>
-    <div>
-        <label>状态：</label>
-        <input type="text" name="status" th:value="${book.status}" required />
-    </div>
-    <div>
-        <button type="submit">保存修改</button>
-        <a href="/books/list">取消</a>
-    </div>
-</form>
+<div class="edit-book-container">
+    <h2 class="edit-book-title">编辑图书</h2>
+    <form th:action="@{/books/edit}" method="post">
+        <input type="hidden" name="id" th:value="${book.id}" />
+        <div class="mb-3">
+            <label for="name" class="form-label">书名</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="${book.name}" required />
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">作者</label>
+            <input type="text" class="form-control" id="author" name="author" th:value="${book.author}" required />
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">分类</label>
+            <input type="text" class="form-control" id="category" name="category" th:value="${book.category}" required />
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">状态</label>
+            <input type="text" class="form-control" id="status" name="status" th:value="${book.status}" required />
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">保存修改</button>
+            <a th:href="@{/books/list}" class="btn btn-secondary">取消</a>
+        </div>
+    </form>
+</div>
+<!-- Bootstrap JS（可选） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

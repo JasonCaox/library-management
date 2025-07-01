@@ -3,39 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>图书列表</title>
+    <!-- 引入 Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .book-list-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 28px 24px 28px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .user-info {
+            margin-bottom: 18px;
+            text-align: right;
+        }
+        .add-btn {
+            margin-bottom: 18px;
+        }
+    </style>
 </head>
 <body>
-<h1>图书列表</h1>
-
-<div th:if="${session.user != null}">
-    <span th:text="'当前用户：' + ${session.user.username} + '（' + ${session.user.role} + '）'"></span>
-    <a th:href="@{/logout}">退出登录</a>
+<div class="book-list-container">
+    <h1 class="mb-4">图书列表</h1>
+    <div th:if="${session.user != null}" class="user-info">
+        <span th:text="'当前用户：' + ${session.user.username} + '（' + ${session.user.role} + '）'"></span>
+        <a th:href="@{/logout}" class="btn btn-outline-secondary btn-sm ms-2">退出登录</a>
+    </div>
+    <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{/books/add}" class="btn btn-primary add-btn">添加新图书</a>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>书名</th>
+                    <th>作者</th>
+                    <th>分类</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.id}">1</td>
+                    <td th:text="${book.name}">书名</td>
+                    <td th:text="${book.author}">作者</td>
+                    <td th:text="${book.category}">分类</td>
+                    <td th:text="${book.status}">状态</td>
+                    <td>
+                        <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/edit?id=' + ${book.id}}" class="btn btn-warning btn-sm me-1">编辑</a>
+                        <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/delete?id=' + ${book.id}}" class="btn btn-danger btn-sm" onclick="return confirm('确定要删除这本图书吗？');">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<!-- 仅管理员可见添加按钮 -->
-<a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{/books/add}">添加新图书</a>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>书名</th>
-        <th>作者</th>
-        <th>分类</th>
-        <th>状态</th>
-        <th>操作</th>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.id}">1</td>
-        <td th:text="${book.name}">书名</td>
-        <td th:text="${book.author}">作者</td>
-        <td th:text="${book.category}">分类</td>
-        <td th:text="${book.status}">状态</td>
-        <td>
-            <!-- 仅管理员可见编辑和删除按钮 -->
-            <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/edit?id=' + ${book.id}}">编辑</a>
-            <a th:if="${session.user != null and session.user.role == 'admin'}" th:href="@{'/books/delete?id=' + ${book.id}}" onclick="return confirm('确定要删除这本图书吗？');">删除</a>
-        </td>
-    </tr>
-</table>
+<!-- Bootstrap JS（可选） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
